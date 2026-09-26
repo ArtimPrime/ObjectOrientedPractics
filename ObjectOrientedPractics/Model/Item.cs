@@ -1,8 +1,4 @@
 ﻿using ObjectOrientedPractics.Services;
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.Xml;
-using System.Text;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -75,7 +71,7 @@ namespace ObjectOrientedPractics.Model
             }
             set
             {
-                if (value < 0 || value > 1000000)
+                if (value < 0 || value > 100000)
                 {
                     throw new ArgumentException("Cost must be in range [0, 100 000]");
                 }
@@ -105,6 +101,12 @@ namespace ObjectOrientedPractics.Model
             Info = info;
             Cost = cost;
             _id = IdGenerator.GetNextId();
+        }
+
+        /// <inheritdoc cref="object.ToString"/>
+        public override string ToString()
+        {
+            return Name;
         }
     }
     

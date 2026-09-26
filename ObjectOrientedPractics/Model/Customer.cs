@@ -1,18 +1,35 @@
-﻿using ObjectOrientedPractics.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
+using ObjectOrientedPractics.Services;
 
 namespace ObjectOrientedPractics.Model
 {
-    internal class Customer
+    /// <summary>
+    /// Покупатель.
+    /// </summary>
+    public class Customer
     {
-
+        /// <summary>
+        /// Id.
+        /// </summary>
         private readonly int _id;
+
+        /// <summary>
+        /// Полное имя.
+        /// </summary>
         private string _fullname;
+
+        /// <summary>
+        /// Адрес доставки.
+        /// </summary>
         private string _address;
-    public int Id { get { return _id; } }
+
+        /// <summary>
+        /// Возвращает Id покупателя.
+        /// </summary>
+        public int Id { get { return _id; } }
+
+        /// <summary>
+        /// Возвращает и задаёт полное имя покупателя.
+        /// </summary>
         public string FullName
         {
             get
@@ -22,11 +39,13 @@ namespace ObjectOrientedPractics.Model
             set
             {
                 ValueValidator.AssertStringOnLength(value, 200, "Fullname");
-
                 _fullname = value;
             }
         }
 
+        /// <summary>
+        /// Возвращает и задаёт адрес доставки покупателя.
+        /// </summary>
         public string Address
         {
             get
@@ -39,16 +58,33 @@ namespace ObjectOrientedPractics.Model
                 _address = value;
             }
         }
+
+        /// <summary>
+        /// Создаёт экземпляр <see cref="Customer"/>.
+        /// </summary>
         public Customer()
         {
             _id = IdGenerator.GetNextId();
         }
 
-        public Customer(string fullname, string adress)
+        /// <summary>
+        /// Создаёт экземпляр <see cref="Customer"/>.
+        /// </summary>
+        /// <param name="fullname">Полное имя покупателя. Должно быть меньше 200 символов.</param>
+        /// <param name="address">Адрес доставки покупателя. Должен быть меньше 500 символов.</param>
+        public Customer(string fullname, string address)
         {
             FullName = fullname;
-            Address = adress;
+            Address = address;
             _id = IdGenerator.GetNextId();
+        }
+
+        /// <summary>
+        /// Возвращает полное имя покупателя.
+        /// </summary>
+        public override string ToString()
+        {
+            return FullName;
         }
     } 
 }
