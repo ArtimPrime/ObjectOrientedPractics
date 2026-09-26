@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Services;
@@ -18,6 +19,11 @@ namespace ObjectOrientedPractics.View.Tabs
         private List<Item> _items = new();
 
         /// <summary>
+        /// Путь к файлу, в котором хранятся сохранённые товары.
+        /// </summary>
+        private readonly string _dataPath = Path.Combine(Application.StartupPath, "items.json");
+
+        /// <summary>
         /// Создаёт экземпляр <see cref="ItemsTab"/>.
         /// </summary>
         public ItemsTab()
@@ -32,6 +38,20 @@ namespace ObjectOrientedPractics.View.Tabs
             NameTextBox.TextChanged += NameTextBox_TextChanged;
             CostTextBox.TextChanged += CostTextBox_TextChanged;
             DescriptionTextBox.TextChanged += DescriptionTextBox_TextChanged;
+
+            _items = ProjectSerializer.LoadItems(_dataPath);
+            foreach (var item in _items)
+            {
+                ItemsListBox.Items.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Сохраняет текущий список товаров в файл.
+        /// </summary>
+        private void SaveItems()
+        {
+            ProjectSerializer.SaveItems(_items, _dataPath);
         }
 
         /// <summary>
@@ -87,6 +107,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             ItemsListBox.ClearSelected();
             ClearFields();
+            SaveItems();
         }
 
         /// <summary>
@@ -98,6 +119,7 @@ namespace ObjectOrientedPractics.View.Tabs
             _items.Add(item);
             ItemsListBox.Items.Add(item);
             ItemsListBox.SelectedItem = item;
+            SaveItems();
         }
 
         /// <summary>
@@ -115,6 +137,8 @@ namespace ObjectOrientedPractics.View.Tabs
                     ItemsListBox.SelectedIndex = Math.Min(index, ItemsListBox.Items.Count - 1);
                 else
                     ClearFields();
+
+                SaveItems();
             }
         }
 
@@ -147,6 +171,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
                     int index = ItemsListBox.SelectedIndex;
                     ItemsListBox.Items[index] = item;
+                    SaveItems();
                 }
                 catch (ArgumentException)
                 {
@@ -169,6 +194,7 @@ namespace ObjectOrientedPractics.View.Tabs
                     {
                         item.Cost = cost;
                         CostTextBox.BackColor = Color.White;
+                        SaveItems();
                     }
                     catch (ArgumentException)
                     {
@@ -194,6 +220,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 {
                     item.Info = DescriptionTextBox.Text;
                     DescriptionTextBox.BackColor = Color.White;
+                    SaveItems();
                 }
                 catch (ArgumentException)
                 {

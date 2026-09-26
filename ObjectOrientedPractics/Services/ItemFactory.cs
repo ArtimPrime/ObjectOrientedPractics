@@ -22,7 +22,7 @@ namespace ObjectOrientedPractics.Services
             "Наушники Sony WH-1000XM5",
             "Клавиатура Logitech MX Keys",
             "Мышь Razer DeathAdder V3",
-            "Монитор LG UltraGear 27\"",
+            "Монитор LG UltraGear 27",
             "Кофеварка Philips Series 3200",
             "Робот-пылесос Xiaomi Mi Robot",
             "Чайник электрический Bosch TWK",

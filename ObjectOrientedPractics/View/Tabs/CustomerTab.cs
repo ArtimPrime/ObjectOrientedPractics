@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Services;
@@ -18,6 +19,11 @@ namespace ObjectOrientedPractics.View.Tabs
         private List<Customer> _customers = new();
 
         /// <summary>
+        /// Путь к файлу, в котором хранятся сохранённые покупатели.
+        /// </summary>
+        private readonly string _dataPath = Path.Combine(Application.StartupPath, "customers.json");
+
+        /// <summary>
         /// Создаёт экземпляр <see cref="CustomerTab"/>.
         /// </summary>
         public CustomerTab()
@@ -31,6 +37,20 @@ namespace ObjectOrientedPractics.View.Tabs
             CustomersListBox.SelectedIndexChanged += CustomersListBox_SelectedIndexChanged;
             FullNameTextBox.TextChanged += FullNameTextBox_TextChanged;
             AddressTextBox.TextChanged += AddressTextBox_TextChanged;
+
+            _customers = ProjectSerializer.LoadCustomers(_dataPath);
+            foreach (var customer in _customers)
+            {
+                CustomersListBox.Items.Add(customer);
+            }
+        }
+
+        /// <summary>
+        /// Сохраняет текущий список покупателей в файл.
+        /// </summary>
+        private void SaveCustomers()
+        {
+            ProjectSerializer.SaveCustomers(_customers, _dataPath);
         }
 
         /// <summary>
@@ -75,6 +95,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             CustomersListBox.ClearSelected();
             ClearFields();
+            SaveCustomers();
         }
 
         /// <summary>
@@ -87,6 +108,7 @@ namespace ObjectOrientedPractics.View.Tabs
             _customers.Add(customer);
             CustomersListBox.Items.Add(customer);
             CustomersListBox.SelectedItem = customer;
+            SaveCustomers();
         }
 
         /// <summary>
@@ -112,6 +134,8 @@ namespace ObjectOrientedPractics.View.Tabs
                     CustomersListBox.SelectedIndex = Math.Min(index, CustomersListBox.Items.Count - 1);
                 else
                     ClearFields();
+
+                SaveCustomers();
             }
         }
 
@@ -143,6 +167,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
                     int index = CustomersListBox.SelectedIndex;
                     CustomersListBox.Items[index] = customer;
+                    SaveCustomers();
                 }
                 catch (ArgumentException)
                 {
@@ -163,6 +188,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 {
                     customer.Address = AddressTextBox.Text;
                     AddressTextBox.BackColor = Color.White;
+                    SaveCustomers();
                 }
                 catch (ArgumentException)
                 {

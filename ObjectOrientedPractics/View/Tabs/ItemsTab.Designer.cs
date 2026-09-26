@@ -167,8 +167,8 @@
             // 
             // DescriptionTextBox
             // 
-            DescriptionTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            DescriptionTextBox.Location = new Point(3, 215);
+            DescriptionTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            DescriptionTextBox.Location = new Point(3, 159);
             DescriptionTextBox.MaximumSize = new Size(1300, 500);
             DescriptionTextBox.Multiline = true;
             DescriptionTextBox.Name = "DescriptionTextBox";
@@ -179,7 +179,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(3, 197);
+            label6.Location = new Point(0, 141);
             label6.Name = "label6";
             label6.Size = new Size(70, 15);
             label6.TabIndex = 7;
@@ -191,7 +191,7 @@
             NameTextBox.Location = new Point(3, 102);
             NameTextBox.Multiline = true;
             NameTextBox.Name = "NameTextBox";
-            NameTextBox.Size = new Size(468, 92);
+            NameTextBox.Size = new Size(468, 36);
             NameTextBox.TabIndex = 6;
             NameTextBox.TextChanged += NameTextBox_TextChanged;
             // 

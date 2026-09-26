@@ -187,7 +187,7 @@
             // 
             // AddressTextBox
             // 
-            AddressTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            AddressTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             AddressTextBox.Location = new Point(73, 88);
             AddressTextBox.Multiline = true;
             AddressTextBox.Name = "AddressTextBox";
