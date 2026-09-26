@@ -33,6 +33,7 @@
             tableLayoutPanel2 = new TableLayoutPanel();
             AddButton = new Button();
             RemoveButton = new Button();
+            GenerateButton = new Button();
             ItemsListBox = new ListBox();
             label1 = new Label();
             panel2 = new Panel();
@@ -86,6 +87,7 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel2.Controls.Add(AddButton, 0, 0);
             tableLayoutPanel2.Controls.Add(RemoveButton, 1, 0);
+            tableLayoutPanel2.Controls.Add(GenerateButton, 2, 0);
             tableLayoutPanel2.Location = new Point(3, 541);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
@@ -112,6 +114,17 @@
             RemoveButton.TabIndex = 1;
             RemoveButton.Text = "Remove";
             RemoveButton.UseVisualStyleBackColor = true;
+            // 
+            // GenerateButton
+            // 
+            GenerateButton.Dock = DockStyle.Fill;
+            GenerateButton.Location = new Point(207, 3);
+            GenerateButton.Name = "GenerateButton";
+            GenerateButton.Size = new Size(98, 44);
+            GenerateButton.TabIndex = 2;
+            GenerateButton.Text = "Generate";
+            GenerateButton.UseVisualStyleBackColor = true;
+            GenerateButton.Click += GenerateButton_Click;
             // 
             // ItemsListBox
             // 
@@ -156,10 +169,10 @@
             // 
             DescriptionTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             DescriptionTextBox.Location = new Point(3, 215);
-            DescriptionTextBox.MaximumSize = new Size(600, 196);
+            DescriptionTextBox.MaximumSize = new Size(1300, 500);
             DescriptionTextBox.Multiline = true;
             DescriptionTextBox.Name = "DescriptionTextBox";
-            DescriptionTextBox.Size = new Size(468, 154);
+            DescriptionTextBox.Size = new Size(468, 160);
             DescriptionTextBox.TabIndex = 8;
             DescriptionTextBox.TextChanged += DescriptionTextBox_TextChanged;
             // 
@@ -176,7 +189,6 @@
             // 
             NameTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             NameTextBox.Location = new Point(3, 102);
-            NameTextBox.MaximumSize = new Size(600, 110);
             NameTextBox.Multiline = true;
             NameTextBox.Name = "NameTextBox";
             NameTextBox.Size = new Size(468, 92);
@@ -212,6 +224,7 @@
             // 
             // CostTextBox
             // 
+            CostTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             CostTextBox.Location = new Point(53, 47);
             CostTextBox.Name = "CostTextBox";
             CostTextBox.Size = new Size(136, 23);
@@ -220,6 +233,7 @@
             // 
             // IdTextBox
             // 
+            IdTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             IdTextBox.Location = new Point(53, 18);
             IdTextBox.Name = "IdTextBox";
             IdTextBox.Size = new Size(136, 23);
@@ -271,5 +285,6 @@
         private Label label5;
         private Label label4;
         private Label label3;
+        private Button GenerateButton;
     }
 }

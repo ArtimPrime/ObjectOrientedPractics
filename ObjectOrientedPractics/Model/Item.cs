@@ -103,7 +103,7 @@ namespace ObjectOrientedPractics.Model
             _id = IdGenerator.GetNextId();
         }
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="ob"/>
         public override string ToString()
         {
             return Name;

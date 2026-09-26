@@ -33,6 +33,7 @@
             tableLayoutPanel2 = new TableLayoutPanel();
             AddButton = new Button();
             RemoveButton = new Button();
+            GenerateButton = new Button();
             CustomersListBox = new ListBox();
             label1 = new Label();
             panel2 = new Panel();
@@ -89,6 +90,7 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel2.Controls.Add(AddButton, 0, 0);
             tableLayoutPanel2.Controls.Add(RemoveButton, 1, 0);
+            tableLayoutPanel2.Controls.Add(GenerateButton, 2, 0);
             tableLayoutPanel2.Location = new Point(3, 541);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
@@ -115,6 +117,17 @@
             RemoveButton.TabIndex = 1;
             RemoveButton.Text = "Remove";
             RemoveButton.UseVisualStyleBackColor = true;
+            // 
+            // GenerateButton
+            // 
+            GenerateButton.Dock = DockStyle.Fill;
+            GenerateButton.Location = new Point(207, 3);
+            GenerateButton.Name = "GenerateButton";
+            GenerateButton.Size = new Size(98, 44);
+            GenerateButton.TabIndex = 2;
+            GenerateButton.Text = "Generate";
+            GenerateButton.UseVisualStyleBackColor = true;
+            GenerateButton.Click += GenerateButton_Click;
             // 
             // CustomersListBox
             // 
@@ -167,6 +180,7 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.AutoScroll = true;
+            splitContainer1.Panel2.Paint += splitContainer1_Panel2_Paint;
             splitContainer1.Size = new Size(474, 594);
             splitContainer1.SplitterDistance = 201;
             splitContainer1.TabIndex = 0;
@@ -274,5 +288,6 @@
         private TextBox IdTextBox;
         private Label label2;
         private TextBox AddressTextBox;
+        private Button GenerateButton;
     }
 }

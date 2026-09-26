@@ -1,4 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Services;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
@@ -30,11 +35,66 @@ namespace ObjectOrientedPractics.View.Tabs
         }
 
         /// <summary>
-        /// Создаёт новый товар и добавляет его в список.
+        /// Считывает значения из полей ввода, проверяет их и, если всё верно,
+        /// создаёт новый товар и добавляет его в список. Если значение какого-либо
+        /// поля некорректно, поле подсвечивается красным и товар не создаётся.
         /// </summary>
         private void AddButton_Click(object sender, EventArgs e)
         {
-            var item = new Item("New item", "Description", 0);
+            bool isValid = true;
+
+            try
+            {
+                ValueValidator.AssertStringOnLength(NameTextBox.Text, 200, "Name");
+                NameTextBox.BackColor = Color.White;
+            }
+            catch (ArgumentException)
+            {
+                NameTextBox.BackColor = Color.MistyRose;
+                isValid = false;
+            }
+
+            try
+            {
+                ValueValidator.AssertStringOnLength(DescriptionTextBox.Text, 1000, "Info");
+                DescriptionTextBox.BackColor = Color.White;
+            }
+            catch (ArgumentException)
+            {
+                DescriptionTextBox.BackColor = Color.MistyRose;
+                isValid = false;
+            }
+
+            double cost = 0;
+            if (double.TryParse(CostTextBox.Text, out cost) && cost >= 0 && cost <= 100000)
+            {
+                CostTextBox.BackColor = Color.White;
+            }
+            else
+            {
+                CostTextBox.BackColor = Color.MistyRose;
+                isValid = false;
+            }
+
+            if (!isValid)
+            {
+                return;
+            }
+
+            var item = new Item(NameTextBox.Text, DescriptionTextBox.Text, cost);
+            _items.Add(item);
+            ItemsListBox.Items.Add(item);
+
+            ItemsListBox.ClearSelected();
+            ClearFields();
+        }
+
+        /// <summary>
+        /// Создаёт случайный товар с помощью <see cref="ItemFactory"/> и добавляет его в список.
+        /// </summary>
+        private void GenerateButton_Click(object sender, EventArgs e)
+        {
+            var item = ItemFactory.Create();
             _items.Add(item);
             ItemsListBox.Items.Add(item);
             ItemsListBox.SelectedItem = item;
@@ -74,6 +134,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
         /// <summary>
         /// Обновляет название товара и подсвечивает поле при ошибке валидации.
+        /// Срабатывает только когда в списке выбран существующий товар.
         /// </summary>
         private void NameTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -96,6 +157,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
         /// <summary>
         /// Обновляет стоимость товара и подсвечивает поле при ошибке валидации или неверном формате.
+        /// Срабатывает только когда в списке выбран существующий товар.
         /// </summary>
         private void CostTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -122,6 +184,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
         /// <summary>
         /// Обновляет описание товара и подсвечивает поле при ошибке валидации.
+        /// Срабатывает только когда в списке выбран существующий товар.
         /// </summary>
         private void DescriptionTextBox_TextChanged(object sender, EventArgs e)
         {

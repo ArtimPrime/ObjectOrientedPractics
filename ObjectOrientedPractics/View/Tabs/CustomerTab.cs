@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Services;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
@@ -33,14 +34,67 @@ namespace ObjectOrientedPractics.View.Tabs
         }
 
         /// <summary>
-        /// Создаёт нового покупателя и добавляет его в список.
+        /// Считывает значения из полей ввода, проверяет их и, если всё верно,
+        /// создаёт нового покупателя и добавляет его в список. Если значение
+        /// какого-либо поля некорректно, поле подсвечивается красным и покупатель не создаётся.
         /// </summary>
         private void AddButton_Click(object sender, EventArgs e)
         {
-            var customer = new Customer("New customer", "Address");
+            bool isValid = true;
+
+            try
+            {
+                ValueValidator.AssertStringOnLength(FullNameTextBox.Text, 200, "Fullname");
+                FullNameTextBox.BackColor = Color.White;
+            }
+            catch (ArgumentException)
+            {
+                FullNameTextBox.BackColor = Color.MistyRose;
+                isValid = false;
+            }
+
+            try
+            {
+                ValueValidator.AssertStringOnLength(AddressTextBox.Text, 500, "Address");
+                AddressTextBox.BackColor = Color.White;
+            }
+            catch (ArgumentException)
+            {
+                AddressTextBox.BackColor = Color.MistyRose;
+                isValid = false;
+            }
+
+            if (!isValid)
+            {
+                return;
+            }
+
+            var customer = new Customer(FullNameTextBox.Text, AddressTextBox.Text);
+            _customers.Add(customer);
+            CustomersListBox.Items.Add(customer);
+
+            CustomersListBox.ClearSelected();
+            ClearFields();
+        }
+
+        /// <summary>
+        /// Создаёт случайного покупателя с помощью <see cref="CustomerFactory"/> и добавляет его в список.
+        /// Подключи этот обработчик к кнопке Generate на этой вкладке (как ты уже сделал на вкладке Items).
+        /// </summary>
+        private void GenerateButton_Click(object sender, EventArgs e)
+        {
+            var customer = CustomerFactory.Create();
             _customers.Add(customer);
             CustomersListBox.Items.Add(customer);
             CustomersListBox.SelectedItem = customer;
+        }
+
+        /// <summary>
+        /// Обработчик отрисовки правой панели сплиттера (создан дизайнером автоматически).
+        /// </summary>
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
         /// <summary>
@@ -76,6 +130,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
         /// <summary>
         /// Обновляет полное имя покупателя и подсвечивает поле при ошибке валидации.
+        /// Срабатывает только когда в списке выбран существующий покупатель.
         /// </summary>
         private void FullNameTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -98,6 +153,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
         /// <summary>
         /// Обновляет адрес доставки покупателя и подсвечивает поле при ошибке валидации.
+        /// Срабатывает только когда в списке выбран существующий покупатель.
         /// </summary>
         private void AddressTextBox_TextChanged(object sender, EventArgs e)
         {
