@@ -41,11 +41,14 @@ namespace ObjectOrientedPractics.Model
             }
             set
             {
+                ValueValidator.AssertNotEmpty(value, nameof(Name));
                 ValueValidator.AssertStringOnLength(value, 200, "Name");
                 _name = value;
             }
         }
-
+        /// <summary>
+        /// Возвращает и задаёт описание товара.
+        /// </summary>
         public string Info
         {
             get 

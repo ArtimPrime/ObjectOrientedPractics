@@ -64,6 +64,8 @@ namespace ObjectOrientedPractics.View.Tabs
 
             try
             {
+                ValueValidator.AssertNotEmpty(FullNameTextBox.Text, "Fullname");
+                ValueValidator.AssertNotEmpty(AddressTextBox.Text, "Address");
                 ValueValidator.AssertStringOnLength(FullNameTextBox.Text, 200, "Fullname");
                 FullNameTextBox.BackColor = Color.White;
             }
@@ -205,6 +207,11 @@ namespace ObjectOrientedPractics.View.Tabs
             IdTextBox.Clear();
             FullNameTextBox.Clear();
             AddressTextBox.Clear();
+        }
+
+        private void AddressTextBox_TextChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

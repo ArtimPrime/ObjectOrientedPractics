@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ObjectOrientedPractics.Services
 {
     /// <summary>
@@ -21,6 +17,20 @@ namespace ObjectOrientedPractics.Services
             if (value.Length > maxLength)
             {
                 throw new ArgumentException($"{propertyName} должен быть меньше {maxLength} символов");
+            }
+        }
+
+        /// <summary>
+        /// Проверяет, что строка не пустая и не состоит только из пробелов.
+        /// </summary>
+        /// <param name="value">Проверяемая строка.</param>
+        /// <param name="propertyName">Названия свойства для текста исключения.</param>
+        /// <exception cref="ArgumentException">Если строка пустая.</exception>
+        public static void AssertNotEmpty(string value, string propertyName)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException($"{propertyName} не должно быть пустым.");
             }
         }
     }

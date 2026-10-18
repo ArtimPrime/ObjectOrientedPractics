@@ -193,6 +193,7 @@
             AddressTextBox.Name = "AddressTextBox";
             AddressTextBox.Size = new Size(398, 110);
             AddressTextBox.TabIndex = 22;
+            AddressTextBox.TextChanged += AddressTextBox_TextChanged_1;
             // 
             // label5
             // 

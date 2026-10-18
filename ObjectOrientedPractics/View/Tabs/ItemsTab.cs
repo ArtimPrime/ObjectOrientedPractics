@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
 using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Services;
 
@@ -65,6 +60,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             try
             {
+                ValueValidator.AssertNotEmpty(NameTextBox.Text, "Name");
                 ValueValidator.AssertStringOnLength(NameTextBox.Text, 200, "Name");
                 NameTextBox.BackColor = Color.White;
             }
@@ -238,6 +234,11 @@ namespace ObjectOrientedPractics.View.Tabs
             CostTextBox.Clear();
             NameTextBox.Clear();
             DescriptionTextBox.Clear();
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

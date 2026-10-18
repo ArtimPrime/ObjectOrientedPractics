@@ -5,6 +5,9 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Покупатель.
     /// </summary>
+    /// 
+
+
     public class Customer
     {
         /// <summary>
@@ -38,6 +41,7 @@ namespace ObjectOrientedPractics.Model
             }
             set
             {
+                ValueValidator.AssertNotEmpty(value, nameof(FullName));
                 ValueValidator.AssertStringOnLength(value, 200, "Fullname");
                 _fullname = value;
             }
