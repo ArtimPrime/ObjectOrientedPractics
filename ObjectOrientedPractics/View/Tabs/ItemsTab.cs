@@ -25,6 +25,9 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             InitializeComponent();
 
+            CategoryComboBox.DataSource = Enum.GetValues(typeof(Category));
+            CategoryComboBox.SelectedIndexChanged += CategoryComboBox_SelectedIndexChanged;
+
             IdTextBox.ReadOnly = true;
 
             AddButton.Click += AddButton_Click;
@@ -97,7 +100,11 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
-            var item = new Item(NameTextBox.Text, DescriptionTextBox.Text, cost);
+            Category category = CategoryComboBox.SelectedItem is Category selected
+            ? selected
+            : Category.Electronics;
+
+            var item = new Item(NameTextBox.Text, DescriptionTextBox.Text, cost, Category.Electronics);
             _items.Add(item);
             ItemsListBox.Items.Add(item);
 
@@ -149,6 +156,15 @@ namespace ObjectOrientedPractics.View.Tabs
                 CostTextBox.Text = item.Cost.ToString();
                 NameTextBox.Text = item.Name;
                 DescriptionTextBox.Text = item.Info;
+                CategoryComboBox.SelectedItem = item.Category;
+            }
+        }
+
+        private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ItemsListBox.SelectedItem is Item item && CategoryComboBox.SelectedItem is Category category)
+            {
+                item.Category = category;
             }
         }
 

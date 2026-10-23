@@ -38,19 +38,19 @@
             label1 = new Label();
             panel2 = new Panel();
             splitContainer1 = new SplitContainer();
-            AddressTextBox = new TextBox();
-            label5 = new Label();
             label4 = new Label();
             label3 = new Label();
             FullNameTextBox = new TextBox();
             IdTextBox = new TextBox();
             label2 = new Label();
+            AddressControl = new ObjectOrientedPractics.View.Controls.AddressControl();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             SuspendLayout();
             // 
@@ -163,14 +163,13 @@
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.IsSplitterFixed = true;
             splitContainer1.Location = new Point(0, 0);
             splitContainer1.Name = "splitContainer1";
             splitContainer1.Orientation = Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
-            splitContainer1.Panel1.Controls.Add(AddressTextBox);
-            splitContainer1.Panel1.Controls.Add(label5);
             splitContainer1.Panel1.Controls.Add(label4);
             splitContainer1.Panel1.Controls.Add(label3);
             splitContainer1.Panel1.Controls.Add(FullNameTextBox);
@@ -180,30 +179,11 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.AutoScroll = true;
+            splitContainer1.Panel2.Controls.Add(AddressControl);
             splitContainer1.Panel2.Paint += splitContainer1_Panel2_Paint;
             splitContainer1.Size = new Size(474, 594);
-            splitContainer1.SplitterDistance = 201;
+            splitContainer1.SplitterDistance = 80;
             splitContainer1.TabIndex = 0;
-            // 
-            // AddressTextBox
-            // 
-            AddressTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            AddressTextBox.Location = new Point(73, 88);
-            AddressTextBox.Multiline = true;
-            AddressTextBox.Name = "AddressTextBox";
-            AddressTextBox.Size = new Size(398, 110);
-            AddressTextBox.TabIndex = 22;
-            AddressTextBox.TextChanged += AddressTextBox_TextChanged_1;
-            // 
-            // label5
-            // 
-            label5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label5.AutoSize = true;
-            label5.Location = new Point(3, 91);
-            label5.Name = "label5";
-            label5.Size = new Size(52, 15);
-            label5.TabIndex = 21;
-            label5.Text = "Address:";
             // 
             // label4
             // 
@@ -252,6 +232,16 @@
             label2.TabIndex = 16;
             label2.Text = "Selected Customer";
             // 
+            // AddressControl
+            // 
+            AddressControl.BackColor = Color.White;
+            AddressControl.Dock = DockStyle.Top;
+            AddressControl.Location = new Point(0, 0);
+            AddressControl.Name = "AddressControl";
+            AddressControl.Size = new Size(474, 510);
+            AddressControl.TabIndex = 0;
+            AddressControl.Load += AddressControl_Load;
+            // 
             // CustomerTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -266,6 +256,7 @@
             panel2.ResumeLayout(false);
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel1.PerformLayout();
+            splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ResumeLayout(false);
@@ -282,13 +273,12 @@
         private Button AddButton;
         private Button RemoveButton;
         private SplitContainer splitContainer1;
-        private Label label5;
         private Label label4;
         private Label label3;
         private TextBox FullNameTextBox;
         private TextBox IdTextBox;
         private Label label2;
-        private TextBox AddressTextBox;
         private Button GenerateButton;
+        private Controls.AddressControl AddressControl;
     }
 }

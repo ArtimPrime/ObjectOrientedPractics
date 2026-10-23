@@ -37,6 +37,8 @@
             ItemsListBox = new ListBox();
             label1 = new Label();
             panel2 = new Panel();
+            label7 = new Label();
+            CategoryComboBox = new ComboBox();
             DescriptionTextBox = new TextBox();
             label6 = new Label();
             NameTextBox = new TextBox();
@@ -150,6 +152,8 @@
             // panel2
             // 
             panel2.BackColor = Color.White;
+            panel2.Controls.Add(label7);
+            panel2.Controls.Add(CategoryComboBox);
             panel2.Controls.Add(DescriptionTextBox);
             panel2.Controls.Add(label6);
             panel2.Controls.Add(NameTextBox);
@@ -166,10 +170,29 @@
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
             // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(3, 79);
+            label7.Name = "label7";
+            label7.Size = new Size(58, 15);
+            label7.TabIndex = 10;
+            label7.Text = "Category:";
+            // 
+            // CategoryComboBox
+            // 
+            CategoryComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CategoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            CategoryComboBox.FormattingEnabled = true;
+            CategoryComboBox.Location = new Point(67, 76);
+            CategoryComboBox.Name = "CategoryComboBox";
+            CategoryComboBox.Size = new Size(136, 23);
+            CategoryComboBox.TabIndex = 9;
+            // 
             // DescriptionTextBox
             // 
             DescriptionTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            DescriptionTextBox.Location = new Point(3, 159);
+            DescriptionTextBox.Location = new Point(3, 191);
             DescriptionTextBox.MaximumSize = new Size(1300, 500);
             DescriptionTextBox.Multiline = true;
             DescriptionTextBox.Name = "DescriptionTextBox";
@@ -180,7 +203,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(0, 141);
+            label6.Location = new Point(0, 173);
             label6.Name = "label6";
             label6.Size = new Size(70, 15);
             label6.TabIndex = 7;
@@ -189,7 +212,7 @@
             // NameTextBox
             // 
             NameTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            NameTextBox.Location = new Point(3, 102);
+            NameTextBox.Location = new Point(3, 134);
             NameTextBox.Multiline = true;
             NameTextBox.Name = "NameTextBox";
             NameTextBox.Size = new Size(468, 36);
@@ -199,7 +222,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(3, 84);
+            label5.Location = new Point(3, 116);
             label5.Name = "label5";
             label5.Size = new Size(42, 15);
             label5.TabIndex = 5;
@@ -226,7 +249,7 @@
             // CostTextBox
             // 
             CostTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            CostTextBox.Location = new Point(53, 47);
+            CostTextBox.Location = new Point(67, 47);
             CostTextBox.Name = "CostTextBox";
             CostTextBox.Size = new Size(136, 23);
             CostTextBox.TabIndex = 2;
@@ -235,7 +258,7 @@
             // IdTextBox
             // 
             IdTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            IdTextBox.Location = new Point(53, 18);
+            IdTextBox.Location = new Point(67, 21);
             IdTextBox.Name = "IdTextBox";
             IdTextBox.Size = new Size(136, 23);
             IdTextBox.TabIndex = 1;
@@ -287,5 +310,7 @@
         private Label label4;
         private Label label3;
         private Button GenerateButton;
+        private Label label7;
+        private ComboBox CategoryComboBox;
     }
 }

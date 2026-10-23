@@ -33,5 +33,19 @@ namespace ObjectOrientedPractics.Services
                 throw new ArgumentException($"{propertyName} не должно быть пустым.");
             }
         }
+
+        /// <summary>
+        /// Проверяет, что значение является шестизначным числом.
+        /// </summary>
+        /// <param name="value">Проверяемое значение.</param>
+        /// <param name="propertyName">Имя свойства.</param>
+        /// <exception cref="ArgumentException">Значение не шестизначное.</exception>
+        public static void AssertSixDigits(int value, string propertyName)
+        {
+            if (value < 100000 || value > 999999)
+            {
+                throw new ArgumentException($"{propertyName} должен быть шестизначным числом");
+            }
+        }
     }
 }
