@@ -46,6 +46,40 @@ namespace ObjectOrientedPractics.Services
         }
 
         /// <summary>
+        /// Сохраняет магазин со всеми данными в файл по указанному пути.
+        /// </summary>
+        /// <param name="store">Магазин для сохранения.</param>
+        /// <param name="path">Путь к файлу.</param>
+        public static void SaveStore(Store store, string path)
+        {
+            string json = JsonConvert.SerializeObject(store, Formatting.Indented);
+            File.WriteAllText(path, json);
+        }
+
+        /// <summary>
+        /// Загружает магазин из файла. Если файла нет или он повреждён, возвращает пустой магазин.
+        /// </summary>
+        /// <param name="path">Путь к файлу.</param>
+        /// <returns>Загруженный или новый пустой магазин.</returns>
+        public static Store LoadStore(string path)
+        {
+            if (!File.Exists(path))
+            {
+                return new Store();
+            }
+
+            try
+            {
+                string json = File.ReadAllText(path);
+                return JsonConvert.DeserializeObject<Store>(json) ?? new Store();
+            }
+            catch (JsonException)
+            {
+                return new Store();
+            }
+        }
+
+        /// <summary>
         /// Загружает список покупателей из файла. Если файл отсутствует, возвращает пустой список.
         /// </summary>
         /// <param name="path">Путь к файлу.</param>

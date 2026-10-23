@@ -1,5 +1,7 @@
 using ObjectOrientedPractics.Model;
 using ObjectOrientedPractics.Services;
+using System.ComponentModel;
+
 
 namespace ObjectOrientedPractics.View.Tabs
 {
@@ -14,9 +16,31 @@ namespace ObjectOrientedPractics.View.Tabs
         private List<Item> _items = new();
 
         /// <summary>
-        /// Путь к файлу, в котором хранятся сохранённые товары.
+        /// Возвращает и задаёт список товаров вкладки. При присвоении обновляет список на экране.
         /// </summary>
-        private readonly string _dataPath = Path.Combine(Application.StartupPath, "items.json");
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public List<Item> Items
+        {
+            get
+            {
+                return _items;
+            }
+            set
+            {
+                _items = value;
+
+                ItemsListBox.Items.Clear();
+                foreach (var item in _items)
+                {
+                    ItemsListBox.Items.Add(item);
+                }
+
+                ClearFields();
+            }
+        }
+
+
 
         /// <summary>
         /// Создаёт экземпляр <see cref="ItemsTab"/>.
@@ -37,20 +61,12 @@ namespace ObjectOrientedPractics.View.Tabs
             CostTextBox.TextChanged += CostTextBox_TextChanged;
             DescriptionTextBox.TextChanged += DescriptionTextBox_TextChanged;
 
-            _items = ProjectSerializer.LoadItems(_dataPath);
             foreach (var item in _items)
             {
                 ItemsListBox.Items.Add(item);
             }
         }
 
-        /// <summary>
-        /// Сохраняет текущий список товаров в файл.
-        /// </summary>
-        private void SaveItems()
-        {
-            ProjectSerializer.SaveItems(_items, _dataPath);
-        }
 
         /// <summary>
         /// Считывает значения из полей ввода, проверяет их и, если всё верно,
@@ -104,13 +120,12 @@ namespace ObjectOrientedPractics.View.Tabs
             ? selected
             : Category.Electronics;
 
-            var item = new Item(NameTextBox.Text, DescriptionTextBox.Text, cost, Category.Electronics);
+            var item = new Item(NameTextBox.Text, DescriptionTextBox.Text, cost, category);
             _items.Add(item);
             ItemsListBox.Items.Add(item);
 
             ItemsListBox.ClearSelected();
             ClearFields();
-            SaveItems();
         }
 
         /// <summary>
@@ -122,7 +137,6 @@ namespace ObjectOrientedPractics.View.Tabs
             _items.Add(item);
             ItemsListBox.Items.Add(item);
             ItemsListBox.SelectedItem = item;
-            SaveItems();
         }
 
         /// <summary>
@@ -141,7 +155,6 @@ namespace ObjectOrientedPractics.View.Tabs
                 else
                     ClearFields();
 
-                SaveItems();
             }
         }
 
@@ -183,7 +196,6 @@ namespace ObjectOrientedPractics.View.Tabs
 
                     int index = ItemsListBox.SelectedIndex;
                     ItemsListBox.Items[index] = item;
-                    SaveItems();
                 }
                 catch (ArgumentException)
                 {
@@ -206,7 +218,6 @@ namespace ObjectOrientedPractics.View.Tabs
                     {
                         item.Cost = cost;
                         CostTextBox.BackColor = Color.White;
-                        SaveItems();
                     }
                     catch (ArgumentException)
                     {
@@ -232,7 +243,6 @@ namespace ObjectOrientedPractics.View.Tabs
                 {
                     item.Info = DescriptionTextBox.Text;
                     DescriptionTextBox.BackColor = Color.White;
-                    SaveItems();
                 }
                 catch (ArgumentException)
                 {

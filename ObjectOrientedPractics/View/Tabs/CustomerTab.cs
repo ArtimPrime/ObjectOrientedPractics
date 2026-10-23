@@ -1,11 +1,12 @@
+using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Services;
+using ObjectOrientedPractics.View.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using ObjectOrientedPractics.Model;
-using ObjectOrientedPractics.View.Controls;
-using ObjectOrientedPractics.Services;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
@@ -20,9 +21,30 @@ namespace ObjectOrientedPractics.View.Tabs
         private List<Customer> _customers = new();
 
         /// <summary>
-        /// Путь к файлу, в котором хранятся сохранённые покупатели.
+        /// Возвращает и задаёт список покупателей вкладки. При присвоении обновляет список на экране.
         /// </summary>
-        private readonly string _dataPath = Path.Combine(Application.StartupPath, "customers.json");
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public List<Customer> Customers
+        {
+            get
+            {
+                return _customers;
+            }
+            set
+            {
+                _customers = value;
+
+                CustomersListBox.Items.Clear();
+                foreach (var customer in _customers)
+                {
+                    CustomersListBox.Items.Add(customer);
+                }
+
+                ClearFields();
+            }
+        }
+
 
         /// <summary>
         /// Создаёт экземпляр <see cref="CustomerTab"/>.
@@ -37,21 +59,8 @@ namespace ObjectOrientedPractics.View.Tabs
             RemoveButton.Click += RemoveButton_Click;
             CustomersListBox.SelectedIndexChanged += CustomersListBox_SelectedIndexChanged;
             FullNameTextBox.TextChanged += FullNameTextBox_TextChanged;
-
-            _customers = ProjectSerializer.LoadCustomers(_dataPath);
-            foreach (var customer in _customers)
-            {
-                CustomersListBox.Items.Add(customer);
-            }
         }
 
-        /// <summary>
-        /// Сохраняет текущий список покупателей в файл.
-        /// </summary>
-        private void SaveCustomers()
-        {
-            ProjectSerializer.SaveCustomers(_customers, _dataPath);
-        }
 
         /// <summary>
         /// Считывает значения из полей ввода, проверяет их и, если всё верно,
@@ -87,7 +96,6 @@ namespace ObjectOrientedPractics.View.Tabs
 
             CustomersListBox.ClearSelected();
             ClearFields();
-            SaveCustomers();
         }
 
         /// <summary>
@@ -100,7 +108,6 @@ namespace ObjectOrientedPractics.View.Tabs
             _customers.Add(customer);
             CustomersListBox.Items.Add(customer);
             CustomersListBox.SelectedItem = customer;
-            SaveCustomers();
         }
 
         /// <summary>
@@ -127,7 +134,6 @@ namespace ObjectOrientedPractics.View.Tabs
                 else
                     ClearFields();
 
-                SaveCustomers();
             }
         }
 
@@ -159,7 +165,6 @@ namespace ObjectOrientedPractics.View.Tabs
 
                     int index = CustomersListBox.SelectedIndex;
                     CustomersListBox.Items[index] = customer;
-                    SaveCustomers();
                 }
                 catch (ArgumentException)
                 {
