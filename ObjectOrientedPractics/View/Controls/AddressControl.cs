@@ -128,5 +128,10 @@ namespace ObjectOrientedPractics.View.Controls
         {
 
         }
+
+        private void StreetTextBox_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -18,6 +18,11 @@ namespace ObjectOrientedPractics.Model
         private string _fullname = string.Empty;
 
         /// <summary>
+        /// Корзина покупателя.
+        /// </summary>
+        private Cart _cart = new Cart();
+
+        /// <summary>
         /// Адрес доставки.
         /// </summary>
         private Address _address = new Address();
@@ -61,6 +66,15 @@ namespace ObjectOrientedPractics.Model
             {
                 _address = value ?? new Address();
             }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт корзину покупателя.
+        /// </summary>
+        public Cart Cart
+        {
+            get { return _cart; }
+            set { _cart = value ?? new Cart(); }
         }
 
         /// <summary>

@@ -120,6 +120,7 @@
             StreetTextBox.Name = "StreetTextBox";
             StreetTextBox.Size = new Size(468, 23);
             StreetTextBox.TabIndex = 8;
+            StreetTextBox.TextChanged += StreetTextBox_TextChanged_1;
             // 
             // label5
             // 
