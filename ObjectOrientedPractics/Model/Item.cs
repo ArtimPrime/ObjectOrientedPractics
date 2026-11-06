@@ -31,6 +31,11 @@ namespace ObjectOrientedPractics.Model
         public int Id { get { return _id; } }
 
         /// <summary>
+        /// Возвращает и задаёт категорию товара.
+        /// </summary>
+        public Category Category { get; set; }
+
+        /// <summary>
         /// Возвращает и задаёт имя товара.
         /// </summary>
         public string Name
@@ -97,12 +102,13 @@ namespace ObjectOrientedPractics.Model
         /// <param name="name">Имя товара. Должно быть меньше 200 символом.</param>
         /// <param name="info">Описание товара. Не должно быть null.</param>
         /// <param name="cost">Стоимость товара. Должна быть в диапазоне [0, 100 000].</param>
-        
-        public Item(string name, string info, double cost)
+        /// <param name="category">Категория товара.</param>
+        public Item(string name, string info, double cost, Category category)
         {
             Name = name;
             Info = info;
             Cost = cost;
+            Category = category;
             _id = IdGenerator.GetNextId();
         }
 

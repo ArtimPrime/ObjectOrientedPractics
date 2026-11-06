@@ -52,8 +52,10 @@ namespace ObjectOrientedPractics.Services
             string name = _names[_random.Next(_names.Length)];
             string info = _infos[_random.Next(_infos.Length)];
             double cost = _random.Next(100, 100000) + Math.Round(_random.NextDouble(), 2);
+            Category[] categories = (Category[])Enum.GetValues(typeof(Category));
+            Category category = categories[_random.Next(categories.Length)];
 
-            return new Item(name, info, cost);
+            return new Item(name, info, cost, category);
         }
     }
 }

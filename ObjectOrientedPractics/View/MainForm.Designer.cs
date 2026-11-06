@@ -77,7 +77,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(792, 433);
+            tabPage1.Size = new Size(792, 533);
             tabPage1.TabIndex = 2;
             tabPage1.Text = "Customers";
             tabPage1.UseVisualStyleBackColor = true;
@@ -87,8 +87,9 @@
             customerTab1.Dock = DockStyle.Fill;
             customerTab1.Location = new Point(3, 3);
             customerTab1.Name = "customerTab1";
-            customerTab1.Size = new Size(786, 427);
+            customerTab1.Size = new Size(786, 527);
             customerTab1.TabIndex = 0;
+            customerTab1.Load += customerTab1_Load;
             // 
             // MainForm
             // 

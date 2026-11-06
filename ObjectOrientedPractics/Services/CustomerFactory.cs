@@ -40,27 +40,39 @@ namespace ObjectOrientedPractics.Services
         };
 
         /// <summary>
-        /// Набор реальных адресов доставки.
+        /// Набор реальных городов.
         /// </summary>
-        private static readonly string[] _addresses =
+        private static readonly string[] _cities =
         {
-            "г. Москва, ул. Ленина, д. 12, кв. 5",
-            "г. Санкт-Петербург, Невский пр-т, д. 45, кв. 10",
-            "г. Новосибирск, ул. Мира, д. 3, кв. 22",
-            "г. Екатеринбург, ул. Малышева, д. 8, кв. 14",
-            "г. Казань, ул. Баумана, д. 20, кв. 7",
-            "г. Томск, пр-т Ленина, д. 30, кв. 2"
+            "Томск", "Москва", "Новосибирск", "Казань", "Екатеринбург",
+            "Санкт-Петербург"
+        };
+
+        /// <summary>
+        /// Набор реальных улиц.
+        /// </summary>
+        private static readonly string[] _streets =
+        {
+            "Ленина", "Мира", "Советская", "Гагарина", "Пушкина"
         };
 
         /// <summary>
         /// Создаёт покупателя со случайными именем и адресом доставки.
         /// </summary>
+        /// <returns>Новый покупатель.</returns>
         public static Customer Create()
         {
             string fullname = $"{_lastNames[_random.Next(_lastNames.Length)]} " +
-                               $"{_firstNames[_random.Next(_firstNames.Length)]} " +
-                               $"{_patronymics[_random.Next(_patronymics.Length)]}";
-            string address = _addresses[_random.Next(_addresses.Length)];
+                              $"{_firstNames[_random.Next(_firstNames.Length)]} " +
+                              $"{_patronymics[_random.Next(_patronymics.Length)]}";
+
+            var address = new Address(
+                _random.Next(100000, 1000000),
+                "Россия",
+                _cities[_random.Next(_cities.Length)],
+                _streets[_random.Next(_streets.Length)],
+                _random.Next(1, 100).ToString(),
+                _random.Next(1, 300).ToString());
 
             return new Customer(fullname, address);
         }

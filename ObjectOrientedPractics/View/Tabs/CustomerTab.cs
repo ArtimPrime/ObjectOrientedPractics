@@ -1,10 +1,12 @@
+using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Services;
+using ObjectOrientedPractics.View.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using ObjectOrientedPractics.Model;
-using ObjectOrientedPractics.Services;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
@@ -19,9 +21,30 @@ namespace ObjectOrientedPractics.View.Tabs
         private List<Customer> _customers = new();
 
         /// <summary>
-        /// Путь к файлу, в котором хранятся сохранённые покупатели.
+        /// Возвращает и задаёт список покупателей вкладки. При присвоении обновляет список на экране.
         /// </summary>
-        private readonly string _dataPath = Path.Combine(Application.StartupPath, "customers.json");
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public List<Customer> Customers
+        {
+            get
+            {
+                return _customers;
+            }
+            set
+            {
+                _customers = value;
+
+                CustomersListBox.Items.Clear();
+                foreach (var customer in _customers)
+                {
+                    CustomersListBox.Items.Add(customer);
+                }
+
+                ClearFields();
+            }
+        }
+
 
         /// <summary>
         /// Создаёт экземпляр <see cref="CustomerTab"/>.
@@ -36,22 +59,8 @@ namespace ObjectOrientedPractics.View.Tabs
             RemoveButton.Click += RemoveButton_Click;
             CustomersListBox.SelectedIndexChanged += CustomersListBox_SelectedIndexChanged;
             FullNameTextBox.TextChanged += FullNameTextBox_TextChanged;
-            AddressTextBox.TextChanged += AddressTextBox_TextChanged;
-
-            _customers = ProjectSerializer.LoadCustomers(_dataPath);
-            foreach (var customer in _customers)
-            {
-                CustomersListBox.Items.Add(customer);
-            }
         }
 
-        /// <summary>
-        /// Сохраняет текущий список покупателей в файл.
-        /// </summary>
-        private void SaveCustomers()
-        {
-            ProjectSerializer.SaveCustomers(_customers, _dataPath);
-        }
 
         /// <summary>
         /// Считывает значения из полей ввода, проверяет их и, если всё верно,
@@ -60,44 +69,33 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void AddButton_Click(object sender, EventArgs e)
         {
-            bool isValid = true;
-
             try
             {
                 ValueValidator.AssertNotEmpty(FullNameTextBox.Text, "Fullname");
-                ValueValidator.AssertNotEmpty(AddressTextBox.Text, "Address");
                 ValueValidator.AssertStringOnLength(FullNameTextBox.Text, 200, "Fullname");
                 FullNameTextBox.BackColor = Color.White;
             }
             catch (ArgumentException)
             {
                 FullNameTextBox.BackColor = Color.MistyRose;
-                isValid = false;
-            }
-
-            try
-            {
-                ValueValidator.AssertStringOnLength(AddressTextBox.Text, 500, "Address");
-                AddressTextBox.BackColor = Color.White;
-            }
-            catch (ArgumentException)
-            {
-                AddressTextBox.BackColor = Color.MistyRose;
-                isValid = false;
-            }
-
-            if (!isValid)
-            {
                 return;
             }
 
-            var customer = new Customer(FullNameTextBox.Text, AddressTextBox.Text);
+            var source = AddressControl.Address;
+            var address = new Address(
+                source.Index,
+                source.Country,
+                source.City,
+                source.Street,
+                source.Building,
+                source.Apartment);
+
+            var customer = new Customer(FullNameTextBox.Text, address);
             _customers.Add(customer);
             CustomersListBox.Items.Add(customer);
 
             CustomersListBox.ClearSelected();
             ClearFields();
-            SaveCustomers();
         }
 
         /// <summary>
@@ -110,7 +108,6 @@ namespace ObjectOrientedPractics.View.Tabs
             _customers.Add(customer);
             CustomersListBox.Items.Add(customer);
             CustomersListBox.SelectedItem = customer;
-            SaveCustomers();
         }
 
         /// <summary>
@@ -137,7 +134,6 @@ namespace ObjectOrientedPractics.View.Tabs
                 else
                     ClearFields();
 
-                SaveCustomers();
             }
         }
 
@@ -150,7 +146,7 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 IdTextBox.Text = customer.Id.ToString();
                 FullNameTextBox.Text = customer.FullName;
-                AddressTextBox.Text = customer.Address;
+                AddressControl.Address = customer.Address;
             }
         }
 
@@ -169,7 +165,6 @@ namespace ObjectOrientedPractics.View.Tabs
 
                     int index = CustomersListBox.SelectedIndex;
                     CustomersListBox.Items[index] = customer;
-                    SaveCustomers();
                 }
                 catch (ArgumentException)
                 {
@@ -178,26 +173,6 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
-        /// <summary>
-        /// Обновляет адрес доставки покупателя и подсвечивает поле при ошибке валидации.
-        /// Срабатывает только когда в списке выбран существующий покупатель.
-        /// </summary>
-        private void AddressTextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (CustomersListBox.SelectedItem is Customer customer)
-            {
-                try
-                {
-                    customer.Address = AddressTextBox.Text;
-                    AddressTextBox.BackColor = Color.White;
-                    SaveCustomers();
-                }
-                catch (ArgumentException)
-                {
-                    AddressTextBox.BackColor = Color.MistyRose;
-                }
-            }
-        }
 
         /// <summary>
         /// Очищает поля редактирования покупателя.
@@ -206,10 +181,11 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             IdTextBox.Clear();
             FullNameTextBox.Clear();
-            AddressTextBox.Clear();
+            AddressControl.Address = new Address();
         }
 
-        private void AddressTextBox_TextChanged_1(object sender, EventArgs e)
+
+        private void AddressControl_Load(object sender, EventArgs e)
         {
 
         }

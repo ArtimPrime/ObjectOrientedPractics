@@ -5,9 +5,6 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Покупатель.
     /// </summary>
-    /// 
-
-
     public class Customer
     {
         /// <summary>
@@ -16,23 +13,27 @@ namespace ObjectOrientedPractics.Model
         private readonly int _id;
 
         /// <summary>
-        /// Полное имя.
+        /// Полное имя покупателя.
         /// </summary>
-        private string _fullname;
+        private string _fullname = string.Empty;
 
         /// <summary>
         /// Адрес доставки.
         /// </summary>
-        private string _address;
+        private Address _address = new Address();
 
         /// <summary>
         /// Возвращает Id покупателя.
         /// </summary>
-        public int Id { get { return _id; } }
+        public int Id
+        {
+            get { return _id; }
+        }
 
         /// <summary>
-        /// Возвращает и задаёт полное имя покупателя.
+        /// Возвращает и задаёт полное имя покупателя. Не более 200 символов.
         /// </summary>
+        /// <exception cref="ArgumentException">Имя пустое или длиннее 200 символов.</exception>
         public string FullName
         {
             get
@@ -41,16 +42,16 @@ namespace ObjectOrientedPractics.Model
             }
             set
             {
-                ValueValidator.AssertNotEmpty(value, nameof(FullName));
+                ValueValidator.AssertNotEmpty(value, "Fullname");
                 ValueValidator.AssertStringOnLength(value, 200, "Fullname");
                 _fullname = value;
             }
         }
 
         /// <summary>
-        /// Возвращает и задаёт адрес доставки покупателя.
+        /// Возвращает и задаёт адрес доставки.
         /// </summary>
-        public string Address
+        public Address Address
         {
             get
             {
@@ -58,8 +59,7 @@ namespace ObjectOrientedPractics.Model
             }
             set
             {
-                ValueValidator.AssertStringOnLength(value, 500, "Address");
-                _address = value;
+                _address = value ?? new Address();
             }
         }
 
@@ -74,9 +74,9 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Создаёт экземпляр <see cref="Customer"/>.
         /// </summary>
-        /// <param name="fullname">Полное имя покупателя. Должно быть меньше 200 символов.</param>
-        /// <param name="address">Адрес доставки покупателя. Должен быть меньше 500 символов.</param>
-        public Customer(string fullname, string address)
+        /// <param name="fullname">Полное имя покупателя. Не более 200 символов.</param>
+        /// <param name="address">Адрес доставки.</param>
+        public Customer(string fullname, Address address)
         {
             FullName = fullname;
             Address = address;
@@ -84,11 +84,11 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// Возвращает полное имя покупателя.
+        /// Возвращает строковое представление покупателя.
         /// </summary>
         public override string ToString()
         {
             return FullName;
         }
-    } 
+    }
 }
