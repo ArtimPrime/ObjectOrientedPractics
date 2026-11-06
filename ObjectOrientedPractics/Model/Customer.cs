@@ -23,6 +23,11 @@ namespace ObjectOrientedPractics.Model
         private Cart _cart = new Cart();
 
         /// <summary>
+        /// Заказы покупателя.
+        /// </summary>
+        private List<Order> _orders = new();
+
+        /// <summary>
         /// Адрес доставки.
         /// </summary>
         private Address _address = new Address();
@@ -75,6 +80,15 @@ namespace ObjectOrientedPractics.Model
         {
             get { return _cart; }
             set { _cart = value ?? new Cart(); }
+        }
+
+        /// <summary>
+        /// Возвращает и задаёт список заказов покупателя.
+        /// </summary>
+        public List<Order> Orders
+        {
+            get { return _orders; }
+            set { _orders = value ?? new List<Order>(); }
         }
 
         /// <summary>
